@@ -14,3 +14,9 @@
 ### OS Files ###
 .DS_Store
 Thumbs.db
+
+/target/
+.vscode/
+*.db
+*.sqlite
+*.log

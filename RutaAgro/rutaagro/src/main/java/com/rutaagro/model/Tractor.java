@@ -4,13 +4,8 @@ import com.rutaagro.enums.OperationalStatus;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "tb_tractor") //criando tabela com "tb_" p SQL
-public class Tractor {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    //toda vez q cria um trator cmc de um nmr sequencial, ex trator1, trator2...
+@Table(name = "tb_tractor")
+public class Tractor extends BaseEntity {
 
     @Column(nullable = false)
     private String model;
@@ -25,9 +20,6 @@ public class Tractor {
         this.model = model;
         this.operationalStatus = operationalStatus;
     }
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
 
     public String getModel() { return model; }
     public void setModel(String model) { this.model = model; }

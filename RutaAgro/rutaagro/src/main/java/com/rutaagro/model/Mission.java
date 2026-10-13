@@ -2,17 +2,11 @@ package com.rutaagro.model;
 
 import com.rutaagro.enums.MissionStatus;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "tb_mission")
-public class Mission {
-
-    //chave primaria
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Mission extends BaseEntity {
 
     @Column(nullable = false)
     private String description;
@@ -21,13 +15,16 @@ public class Mission {
     @Column(nullable = false)
     private MissionStatus status;
 
+    // Instant (UTC) em vez de LocalDateTime: sem fuso, o relógio do trator
+    // e o do servidor podem divergir e quebrar a comparação no sync.
     @Column(name = "start_time")
-    private LocalDateTime startTime;
+    private Instant startTime;
 
     @Column(name = "end_time")
-    private LocalDateTime endTime;
+    private Instant endTime;
 
-    @ManyToOne
+    // LAZY: o padrão do @ManyToOne é EAGER, que carrega o trator sempre.
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "tractor_id", nullable = false)
     private Tractor tractor;
 
@@ -39,20 +36,17 @@ public class Mission {
         this.tractor = tractor;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
     public MissionStatus getStatus() { return status; }
     public void setStatus(MissionStatus status) { this.status = status; }
 
-    public LocalDateTime getStartTime() { return startTime; }
-    public void setStartTime(LocalDateTime startTime) { this.startTime = startTime; }
+    public Instant getStartTime() { return startTime; }
+    public void setStartTime(Instant startTime) { this.startTime = startTime; }
 
-    public LocalDateTime getEndTime() { return endTime; }
-    public void setEndTime(LocalDateTime endTime) { this.endTime = endTime; }
+    public Instant getEndTime() { return endTime; }
+    public void setEndTime(Instant endTime) { this.endTime = endTime; }
 
     public Tractor getTractor() { return tractor; }
     public void setTractor(Tractor tractor) { this.tractor = tractor; }

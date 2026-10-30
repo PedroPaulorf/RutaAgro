@@ -6,13 +6,12 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
- * Classe base para todas as entidades do sistema, fornecendo campos comuns e comportamento padrão.
  * - UUID gerado no cliente: o trator cria registros offline sem colidir com o
  * servidor.
  * - createdAt/updatedAt: base da resolução de conflitos por timestamp (F4).
  * - @Version (Long, wrapper): controle de concorrência e permite ao Spring Data
  * saber que o registro é novo mesmo com ID já preenchido
- 
+
  */
 @MappedSuperclass
 public abstract class BaseEntity {

@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.2.5</version>
+    <version>4.1.2</version>
     <relativePath/>
   </parent>
 
@@ -17,8 +17,8 @@
   <name>rutaagro</name>
 
   <properties>
-    <!-- Spring Boot 3 exige Java 17+. Ajuste para 21 se for o seu JDK. -->
-    <java.version>17</java.version>
+    <!-- Alinhado ao JDK usado pelo Maven. -->
+    <java.version>25</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -26,7 +26,7 @@
     <!-- API REST -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
+      <artifactId>spring-boot-starter-webmvc</artifactId>
     </dependency>
 
     <!-- JPA / Hibernate -->
@@ -43,8 +43,13 @@
 
     <!-- Migrations versionadas -->
     <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-flyway</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.flywaydb</groupId>
-      <artifactId>flyway-core</artifactId>
+      <artifactId>flyway-database-postgresql</artifactId>
+      <scope>runtime</scope>
     </dependency>
 
     <!-- PostgreSQL (servidor central) -->
@@ -58,11 +63,10 @@
     <dependency>
       <groupId>org.xerial</groupId>
       <artifactId>sqlite-jdbc</artifactId>
-      <version>3.45.1.0</version>
       <scope>runtime</scope>
     </dependency>
 
-    <!-- Dialeto SQLite para o Hibernate 6 (não vem no core) -->
+    <!-- Dialeto SQLite com versão gerenciada junto ao Hibernate pelo Spring Boot. -->
     <dependency>
       <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-community-dialects</artifactId>

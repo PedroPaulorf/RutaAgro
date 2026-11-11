@@ -15,15 +15,13 @@ public class Mission extends BaseEntity {
     @Column(nullable = false)
     private MissionStatus status;
 
-    // Instant (UTC) em vez de LocalDateTime: sem fuso, o relógio do trator
-    // e o do servidor podem divergir e quebrar a comparação no sync.
+
     @Column(name = "start_time")
     private Instant startTime;
 
     @Column(name = "end_time")
     private Instant endTime;
 
-    // LAZY: o padrão do @ManyToOne é EAGER, que carrega o trator sempre.
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "tractor_id", nullable = false)
     private Tractor tractor;

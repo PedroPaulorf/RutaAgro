@@ -7,7 +7,8 @@ import java.util.UUID;
 
 /**
  * - UUID gerado no cliente: o trator cria registros offline sem colidir com o
- * servidor.
+        servidor.
+        
  * - createdAt/updatedAt: base da resolução de conflitos por timestamp (F4).
  * - @Version (Long, wrapper): controle de concorrência e permite ao Spring Data
  * saber que o registro é novo mesmo com ID já preenchido

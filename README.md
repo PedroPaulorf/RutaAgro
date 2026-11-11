@@ -104,4 +104,3 @@ Veja [CONTRIBUTING.md](CONTRIBUTING.md) para organização das alterações e ve
 ## Autor
 
 [Pedro Paulo](https://github.com/PedroPaulorf) · [LinkedIn](https://www.linkedin.com/in/pedro-paulo-ba5735179/)
-

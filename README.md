@@ -17,7 +17,7 @@ Para solucionar isso, o sistema implementa uma **arquitetura Offline-First** (Pr
 ## 🚀 Roadmap Atual
 - [x] Configuração inicial do projeto e estrutura de pastas
 - [x] Modelagem de domínio (Entidades e Enums)
-- [ ] Conexão com o banco de dados e configuração da persistência híbrida
+- [x] Conexão com o banco de dados e configuração da persistência híbrida
 - [ ] Lógica de sincronização (SQLite -> PostgreSQL)
 - [ ] Criação dos Endpoints da API REST
 - [ ] Testes Unitários e de Integração
@@ -46,7 +46,7 @@ To achieve this, the system implements an **Offline-First architecture**, ensuri
 ## 🚀 Current Roadmap
 - [x] Initial project setup and folder structure
 - [x] Domain modeling (Entities and Enums)
-- [ ] Database connection and hybrid persistence setup
+- [x] Database connection and hybrid persistence setup
 - [ ] Synchronization logic (SQLite -> PostgreSQL)
 - [ ] REST API Endpoints creation
 - [ ] Unit and Integration Tests

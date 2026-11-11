@@ -1,0 +1,39 @@
+name: Java CI
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: rutaagro_test
+          POSTGRES_USER: rutaagro
+          POSTGRES_PASSWORD: ci_only_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    defaults:
+      run:
+        working-directory: RutaAgro/rutaagro
+    env:
+      RUTAAGRO_DB_USERNAME: rutaagro
+      RUTAAGRO_DB_PASSWORD: ci_only_password
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+          cache-dependency-path: RutaAgro/rutaagro/pom.xml
+      - name: Compile and test
+        run: mvn --batch-mode --no-transfer-progress verify

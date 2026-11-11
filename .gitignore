@@ -1,0 +1,17 @@
+# Arquivos locais de desenvolvimento
+.vscode/
+*.code-workspace
+**/target/
+.env
+.env.*
+!.env.example
+*.log
+*.db
+*.sqlite
+*.sqlite3
+.DS_Store
+Thumbs.db
+
+# Imagens pessoais fora do projeto
+/banner-linkedin.png
+/capa-linkedin-java-python-docker-cloud.png

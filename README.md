@@ -1,56 +1,106 @@
-# 🚜 RutaAgro | API de Telemetria para Tratores Autônomos
+# RutaAgro
 
-> 🚧 **Status: Em Desenvolvimento (Fase Inicial)** 🚧
+Backend Java para registrar operações agrícolas e, futuramente, sincronizar rotas e telemetria coletadas sem internet.
 
-## 📖 Sobre o Projeto
-O RutaAgro é uma API REST projetada para resolver um desafio crítico no setor Agritech: a coleta de dados de telemetria de tratores autônomos operando em áreas rurais com conexão de internet intermitente ou inexistente. 
+**Status:** em desenvolvimento, como projeto de aprendizado e portfólio.
 
-Para solucionar isso, o sistema implementa uma **arquitetura Offline-First** (Prioridade Offline), garantindo que nenhum dado seja perdido durante as operações no campo.
+## O problema
 
-## 🏗️ Arquitetura e Tecnologias
-- **Linguagem:** Java
-- **Framework:** Spring Boot
-- **Persistência Local (Veículo):** SQLite (armazena os dados offline)
-- **Persistência Central (Nuvem):** PostgreSQL (sincroniza os dados quando a conexão é restabelecida)
-- **Práticas de Desenvolvimento:** Programação Orientada a Objetos (POO) rigorosa e versionamento com Conventional Commits.
+A conectividade no campo pode ser intermitente. O objetivo do RutaAgro é permitir que um dispositivo registre a operação localmente e envie os dados ao servidor quando recuperar a conexão.
 
-## 🚀 Roadmap Atual
-- [x] Configuração inicial do projeto e estrutura de pastas
-- [x] Modelagem de domínio (Entidades e Enums)
-- [ ] Conexão com o banco de dados e configuração da persistência híbrida
-- [ ] Lógica de sincronização (SQLite -> PostgreSQL)
-- [ ] Criação dos Endpoints da API REST
-- [ ] Testes Unitários e de Integração
+## Tecnologias
 
-## 🤝 Como acompanhar
-Este projeto está em desenvolvimento ativo. Sinta-se à vontade para dar uma estrela (star) no repositório para acompanhar a evolução da arquitetura, ou conecte-se comigo no [LinkedIn](www.linkedin.com/in/pedro-paulo-ba5735179) para discutirmos essas escolhas técnicas!
+- Java 25 e Spring Boot 4.1.2
+- Spring Data JPA / Hibernate e Jakarta Validation
+- PostgreSQL e migrações Flyway
+- Maven e JUnit 5
+- SQLite: dependência preparada para a futura persistência offline
 
------------------------------------------------------
+## Estado atual
 
-## 🚜 RutaAgro | Autonomous Tractor Telemetry API
+- Entidades `Tractor` e `Mission`, com identificadores UUID.
+- Relacionamento entre missão e trator.
+- Inicialização Spring Boot e configuração PostgreSQL.
+- Migração inicial das tabelas e validação do esquema pelo Hibernate.
+- Repositório de tratores e teste de carregamento do contexto.
 
- 🚧 **Status: Work in Progress (Early Development)**
+O cadastro pela API está em construção. Ainda não há Controller disponível. Coleta de telemetria, mapas, autenticação e sincronização offline são funcionalidades planejadas.
 
-## 📖 About the Project
-RutaAgro is a REST API designed to solve a critical challenge in the Agritech sector: collecting telemetry data from autonomous tractors operating in rural areas with intermittent or zero internet connectivity. 
+## Arquitetura
 
-To achieve this, the system implements an **Offline-First architecture**, ensuring no data is lost during field operations.
+Fluxo do backend em construção:
 
-## 🏗️ Architecture & Tech Stack
-- **Language:** Java
-- **Framework:** Spring Boot
-- **Local Persistence (Vehicle):** SQLite (stores data offline)
-- **Central Persistence (Cloud):** PostgreSQL (syncs data when connection is restored)
-- **Development Practices:** Strict Object-Oriented Programming (OOP) and Conventional Commits.
+```text
+Cliente HTTP → Controller → Service → Repository → PostgreSQL
+```
 
-## 🚀 Current Roadmap
-- [x] Initial project setup and folder structure
-- [x] Domain modeling (Entities and Enums)
-- [ ] Database connection and hybrid persistence setup
-- [ ] Synchronization logic (SQLite -> PostgreSQL)
-- [ ] REST API Endpoints creation
-- [ ] Unit and Integration Tests
+Fluxo offline planejado:
 
-## 🤝 How to follow along
-This project is currently under active development. Feel free to star the repository to follow the architectural evolution, or reach out to me on [LinkedIn](www.linkedin.com/in/pedro-paulo-ba5735179) to discuss the technical choices!
+```text
+Dispositivo → SQLite → fila de sincronização → API → PostgreSQL → dashboard
+```
 
+A presença dos drivers SQLite e PostgreSQL não significa que a sincronização já esteja implementada.
+
+## Executar localmente
+
+Requisitos: JDK 25, Maven e PostgreSQL em execução na porta 5432.
+
+1. Crie um banco chamado `rutaagro` no PostgreSQL.
+2. Abra o PowerShell na raiz deste repositório e configure as credenciais:
+
+```powershell
+$env:RUTAAGRO_DB_USERNAME = 'seu_usuario'
+$env:RUTAAGRO_DB_PASSWORD = 'sua_senha'
+cd RutaAgro/rutaagro
+mvn spring-boot:run
+```
+
+O Flyway aplica as migrações ao iniciar. O Hibernate valida as tabelas existentes. Por padrão, o servidor usa a porta 8080; enquanto os Controllers não forem implementados, acessar uma rota de negócio pode retornar 404.
+
+## Compilar e testar
+
+Na pasta `RutaAgro/rutaagro`:
+
+```powershell
+mvn compile
+mvn test
+```
+
+Os testes com perfil `test` usam o banco separado `rutaagro_test`. Crie esse banco e configure as mesmas variáveis de credenciais antes de executá-los. Os testes de integração precisam do PostgreSQL disponível.
+
+## Estrutura
+
+```text
+RutaAgro/rutaagro/
+├── pom.xml
+└── src/
+    ├── main/
+    │   ├── java/com/rutaagro/
+    │   │   ├── dto/
+    │   │   ├── enums/
+    │   │   ├── model/
+    │   │   └── repository/
+    │   └── resources/
+    │       ├── application.properties
+    │       └── db/migration/
+    └── test/
+```
+
+## Próximas entregas
+
+- [ ] Concluir DTOs, serviço e endpoints de cadastro/listagem de tratores.
+- [ ] Implementar o ciclo de vida das missões e suas regras.
+- [ ] Registrar posições e telemetria simuladas.
+- [ ] Persistir dados no dispositivo sem conexão.
+- [ ] Implementar fila, confirmação de recebimento e prevenção de duplicidade.
+- [ ] Adicionar autenticação, dashboard e mapas.
+- [ ] Documentar e demonstrar o fluxo completo offline → sincronização.
+
+## Contribuição
+
+Veja [CONTRIBUTING.md](CONTRIBUTING.md) para organização das alterações e verificações.
+
+## Autor
+
+[Pedro Paulo](https://github.com/PedroPaulorf) · [LinkedIn](https://www.linkedin.com/in/pedro-paulo-ba5735179/)
